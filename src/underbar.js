@@ -38,7 +38,11 @@
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
-    return n === undefined ? array[array.length - 1] : array.splice(-n, n)
+    if (n === 0) {
+      return [];
+    } else {
+      return n === undefined ? array[array.length - 1] : array.splice(-n);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -182,8 +186,9 @@
     return _.reduce(collection, function(wasFound, item) {
       if (wasFound) {
         return true;
+      } else {
+        return item === target;
       }
-      return item === target;
     }, false);
   };
 
@@ -208,10 +213,10 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
 
-    var defaultIterator = iterator || Boolean;
+    iterator = iterator || _.identity;
     
     return !_.every(collection, function(item) {
-      return !defaultIterator(item);
+      return !iterator(item);
     });
   };
 

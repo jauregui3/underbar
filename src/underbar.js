@@ -116,8 +116,8 @@
     // the members, it also maintains an array of results.
     var result = [];
 
-    _.each(collection, function(item) {
-      result.push(iterator(item));
+    _.each(collection, function(item, index) {
+      result.push(iterator(item, index));
     });
 
     return result;
@@ -162,15 +162,26 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
-    var index = 0;
-    if (arguments.length < 3) {
-      accumulator = collection[0];
-      index = 1;
-    }
+    var hasAccum = (accumulator !== undefined);
+    _.each(collection, function(item) {
+      if (hasAccum) {
+        accumulator = iterator(accumulator, item);
+      } else {
+        accumulator = item;
+        hasAccum = true;
+      }
+    });
 
-    for (index; index < collection.length; index++) {
-      accumulator = iterator(accumulator, collection[index]);
-    }
+
+    // var index = 0;
+    // if (arguments.length < 3) {
+    //   accumulator = collection[0];
+    //   index = 1;
+    // }
+
+    // for (index; index < collection.length; index++) {
+    //   accumulator = iterator(accumulator, collection[index]);
+    // }
 
     return accumulator;
   };

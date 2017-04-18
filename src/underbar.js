@@ -83,8 +83,8 @@
   _.filter = function(collection, test) {
     var result = [];
 
-    _.each(collection, function(item) {
-      if (test(item) === true) {
+    _.each(collection, function(item, index) {
+      if (test(item, index) === true) {
         result.push(item);
       }
     });
@@ -103,15 +103,9 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var result = [];
-
-    _.each(array, function(item) {
-      if(!result.includes(item)) {
-        result.push(item);
-      }
+    return _.filter(array, function(item, index) {
+      return _.indexOf(array, item) === index;
     });
-
-    return result;
   };
 
 

@@ -292,14 +292,14 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var calledArguments = {};
+    var computedArgList = {};
 
     return function() {
       var args = JSON.stringify(arguments);
-      if (!calledArguments[args]) {
-        calledArguments[args] = func.apply(this, arguments);
+      if (!computedArgList[args]) {
+        computedArgList[args] = func.apply(this, arguments);
       }
-      return calledArguments[args];
+      return computedArgList[args];
     };
   };
 
@@ -332,7 +332,7 @@
     var result = [];
     var arrayCopy = array.slice(0);
 
-    while (arrayCopy.length > 0) {
+    for (var i = 0; i < array.length; i++) {
       var randomIndex = Math.floor(Math.random() * (arrayCopy.length - 1));
       result.push(arrayCopy[randomIndex]);
       arrayCopy.splice(randomIndex, 1);

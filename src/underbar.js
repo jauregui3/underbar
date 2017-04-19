@@ -163,6 +163,7 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     var hasAccum = (accumulator !== undefined);
+    
     _.each(collection, function(item) {
       if (hasAccum) {
         accumulator = iterator(accumulator, item);
@@ -171,17 +172,6 @@
         hasAccum = true;
       }
     });
-
-
-    // var index = 0;
-    // if (arguments.length < 3) {
-    //   accumulator = collection[0];
-    //   index = 1;
-    // }
-
-    // for (index; index < collection.length; index++) {
-    //   accumulator = iterator(accumulator, collection[index]);
-    // }
 
     return accumulator;
   };
@@ -203,15 +193,9 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    iterator = iterator || _.identity;
     return _.reduce(collection, function(allTrue, item) {
-      if (allTrue === false) {
-        return false;
-      }
-      if (typeof item === 'boolean') {
-        return item;
-      } else {
-        return Boolean(iterator(item));
-      }
+      return allTrue && Boolean(iterator(item));
     }, true);
   };
 
